@@ -119,14 +119,14 @@ In a **new terminal**, submit a `.onion` URL:
 ### 🔹 Step 4: Observe Crawling Output
 
 Example output:
+```
 [+] Seed added: http://exampleonionaddress.onion
-
 [>] Crawling http://exampleonionaddress.onion
  (depth=0)
 [✓] Search Engine | Threat=False
 [>] Crawling /about (depth=1)
 [✓] Directory | Threat=False
-
+```
 
 
 Each log entry shows:
