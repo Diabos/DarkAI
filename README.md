@@ -57,17 +57,20 @@ DarkAI runs as a **long-running crawler service**.
 
 ## 📁 Project Structure
 
+## 📁 Project Structure
+
+```text
 DarkAI/
-├── &nbsp;&nbsp;data/
-│   └── &nbsp;&nbsp;&nbsp;&nbsp;.gitkeep
-├── &nbsp;&nbsp;sentinel/
-│   ├── &nbsp;&nbsp;&nbsp;&nbsp; Dockerfile
-│   ├── &nbsp;&nbsp;&nbsp;&nbsp; main.py
-│   └── &nbsp;&nbsp;&nbsp;&nbsp; requirements.txt
-├── &nbsp;&nbsp; docker-compose.yml
-├── &nbsp;&nbsp; README.md
-├── &nbsp;&nbsp; LICENSE
-└── &nbsp;&nbsp; .gitignore  
+├── data/                     # Runtime data (generated at execution)
+│   └── .gitkeep              # Keeps empty folder tracked by Git
+├── sentinel/                 # Core crawler + AI engine
+│   ├── Dockerfile            # Docker image definition
+│   ├── main.py               # Main crawler execution logic
+│   └── requirements.txt      # Python dependencies
+├── docker-compose.yml        # Multi-container orchestration (Tor + Sentinel)
+├── README.md                 # Project documentation
+├── LICENSE                   # Open-source license
+└── .gitignore                # Ignored files and folders  
 
 
 ---
