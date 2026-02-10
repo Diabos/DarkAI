@@ -1,16 +1,15 @@
 # runtime data
 data/*
+sentinel/data/*
 !data/.gitkeep
+
+# databases & images
+*.db
+*.sqlite
+*.png
+*.jpg
+*.jpeg
 
 # python
 __pycache__/
 *.pyc
-
-# databases / outputs
-*.db
-*.sqlite
-*.log
-*.json
-
-# docker
-.env
