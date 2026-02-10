@@ -44,7 +44,7 @@ DarkAI runs as a **long-running crawler service**.
 
 ## 🏗️ System Architecture
 
-![DarkAI Architecture](docs/architecture.png)
+![DarkAI Architecture](doc/architecture.png)
 
 The system uses a Tor-based crawling pipeline integrated with AI-powered
 content analysis to classify dark web websites and recursively discover
