@@ -1,0 +1,18 @@
+# --- FORCE CPU TORCH (NO CUDA DOWNLOADS) ---
+torch==2.2.2+cpu
+torchvision==0.17.2+cpu
+torchaudio==2.2.2+cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# --- App deps ---
+numpy<2
+requests
+requests[socks]
+selenium
+imagehash
+Pillow
+easyocr
+transformers==4.39.3
+sentencepiece
+protobuf<5
+beautifulsoup4
