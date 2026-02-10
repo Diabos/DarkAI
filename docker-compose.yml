@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  tor-service:
+    image: osminogin/tor-simple
+    container_name: tor-service
+    restart: always
+    ports:
+      - "9050:9050"
+
+  sentinel-ai:
+    build: ./sentinel
+    container_name: sentinel-ai
+    depends_on:
+      - tor-service
+    volumes:
+      - ./sentinel/data:/app/data
+    shm_size: "8gb"
+    environment:
+      TOR_PROXY: socks5://tor-service:9050
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
