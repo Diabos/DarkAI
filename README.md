@@ -51,6 +51,6 @@ Unlike traditional scrapers, DarkAI analyzes **visually rendered content**, maki
 ### Steps
 
 ```bash
-git clone https://github.com/<your-username>/DarkAI.git
+git clone https://github.com/Diabos/DarkAI.git
 cd DarkAI
 docker compose up -d --build
