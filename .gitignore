@@ -1,0 +1,16 @@
+# runtime data
+data/*
+!data/.gitkeep
+
+# python
+__pycache__/
+*.pyc
+
+# databases / outputs
+*.db
+*.sqlite
+*.log
+*.json
+
+# docker
+.env
