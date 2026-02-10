@@ -40,7 +40,15 @@ DarkAI runs as a **long-running crawler service**.
 6. 🧠 An NLP model analyzes the extracted text  
 7. ⚠️ The website is classified as **Safe** or **Threat**  
 8. 🔗 New onion links are discovered and added to the crawl queue  
-9. 🔁 The crawling process continues automatically  
+9. 🔁 The crawling process continues automatically
+
+## 🏗️ System Architecture
+
+![DarkAI Architecture](docs/architecture.png)
+
+The system uses a Tor-based crawling pipeline integrated with AI-powered
+content analysis to classify dark web websites and recursively discover
+new links without deadlocks.
 
 ---
 
