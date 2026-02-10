@@ -57,7 +57,6 @@ DarkAI runs as a **long-running crawler service**.
 
 ## 📁 Project Structure
 
-## 📁 Project Structure
 
 ```text
 DarkAI/
@@ -71,7 +70,7 @@ DarkAI/
 ├── README.md                 # Project documentation
 ├── LICENSE                   # Open-source license
 └── .gitignore                # Ignored files and folders  
-
+```
 
 ---
 
