@@ -58,12 +58,12 @@ DarkAI runs as a **long-running crawler service**.
 ## 📁 Project Structure
 
 DarkAI/
-├── data/ # Runtime data (empty, ignored by Git)
-│ └── .gitkeep
+├── data/                     # Runtime data (empty, ignored by Git)
+│   └── .gitkeep
 ├── sentinel/
-│ ├── Dockerfile
-│ ├── main.py
-│ └── requirements.txt
+│   ├── Dockerfile
+│   ├── main.py
+│   └── requirements.txt
 ├── docker-compose.yml
 ├── README.md
 ├── LICENSE
