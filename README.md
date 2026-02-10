@@ -79,7 +79,7 @@ DarkAI/
 ### 🔹 Step 1: Start the System
 
 From the project root directory, run:
-docker compose up -d --build
+``docker compose up -d --build``
 
 This starts:
 - 🧅 Tor service  
@@ -91,7 +91,7 @@ This starts:
 
 Check that the crawler is running and ready:
 
-docker logs -f sentinel-ai
+``docker logs -f sentinel-ai``
 
 Expected logs:
 [*] Initializing AI models
@@ -108,7 +108,7 @@ Using CPU. Note: This module is much faster with a GPU.
 ### 🔹 Step 3: Submit a Dark Web URL
 
 In a **new terminal**, submit a `.onion` URL:
-docker exec -it sentinel-ai python main.py http://exampleonionaddress.onion
+```docker exec -it sentinel-ai python main.py http://exampleonionaddress.onion```
 
 ⚠️ Notes:
 - Always include `http://`  
@@ -166,7 +166,6 @@ This project integrates concepts from:
 - 🧠 Operating Systems  
 - 🛠️ Software Engineering  
 
-It is suitable for submission as a **B.Tech Final Year Major Project**.
 
 ---
 
