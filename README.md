@@ -2,8 +2,7 @@
 
 DarkAI is an AI-powered cybersecurity research system that crawls dark web (.onion) websites through the Tor network and classifies them as safe or malicious using Computer Vision (OCR) and Natural Language Processing (NLP).
 
-Unlike traditional scrapers that rely solely on HTML parsing, DarkAI analyzes visually rendered content, enabling effective analysis of JavaScript-heavy pages, obfuscated text, or image-based content. This project is intended strictly for academic research and is suitable as a B.Tech Final Year Major Project.
-
+Unlike traditional scrapers that rely solely on HTML parsing, DarkAI analyzes visually rendered content, enabling effective analysis of JavaScript-heavy pages, obfuscated text, or image-based content. 
 ---
 
 ## Project Objectives
