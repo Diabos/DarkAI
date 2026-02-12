@@ -1,72 +1,69 @@
-# 🕵️‍♂️ DarkAI – Intelligent Dark Web Crawler & Threat Analyzer
+# DarkAI – Intelligent Dark Web Crawler & Threat Analyzer
 
-DarkAI is an AI-powered cybersecurity research system that crawls dark web (.onion) websites via the 🧅 **Tor network** and classifies them as **safe or malicious** using 🤖 **Computer Vision (OCR)** and 🧠 **Natural Language Processing (NLP)**.
+DarkAI is an AI-powered cybersecurity research system that crawls dark web (.onion) websites through the Tor network and classifies them as safe or malicious using Computer Vision (OCR) and Natural Language Processing (NLP).
 
-Unlike traditional web scrapers that rely only on HTML parsing, DarkAI analyzes **visually rendered page content**, making it effective against JavaScript-rendered pages, obfuscated text, and image-based content commonly found on the dark web.
-
-This project is developed strictly for 🎓 **academic research** and is suitable for a **B.Tech Final Year Major Project**.
+Unlike traditional scrapers that rely solely on HTML parsing, DarkAI analyzes visually rendered content, enabling effective analysis of JavaScript-heavy pages, obfuscated text, or image-based content. This project is intended strictly for academic research and is suitable as a B.Tech Final Year Major Project.
 
 ---
 
-## 🎯 Project Objectives
+## Project Objectives
 
-- 🧅 Crawl dark web websites anonymously using the Tor network  
-- 👁️ Extract visible page content using computer vision (OCR)  
-- 🧠 Classify websites using AI-based NLP models  
-- 🔁 Recursively discover and analyze linked onion sites  
-- 🚫 Prevent deadlocks and infinite crawling loops  
-- ✅ Provide an ethical and reproducible cybersecurity research framework  
-
----
-
-## 🧩 System Overview
-
-DarkAI runs as a **long-running crawler service**.
-
-1. 🚀 The system starts and initializes all AI models  
-2. ⏳ It waits in an idle state for a user-submitted dark web URL  
-3. ▶️ Once a URL is submitted, crawling and analysis begin automatically  
-4. 🔗 Newly discovered onion links are recursively analyzed  
+- Crawl dark web websites anonymously using the Tor network  
+- Extract visible content using OCR  
+- Classify websites using AI-based NLP models  
+- Recursively discover and analyze linked onion sites  
+- Prevent deadlocks and infinite crawl loops  
+- Provide an ethical, reproducible cybersecurity research framework  
 
 ---
 
-## ⚙️ How the System Works
+## System Overview
 
-1. 👤 The user submits a `.onion` URL  
-2. 🧅 All network traffic is routed through the Tor network  
-3. 🖥️ The page is rendered using a headless browser (Selenium + Chromium)  
-4. 📸 A screenshot of the rendered page is captured  
-5. 👁️ OCR extracts visible text from the screenshot  
-6. 🧠 An NLP model analyzes the extracted text  
-7. ⚠️ The website is classified as **Safe** or **Threat**  
-8. 🔗 New onion links are discovered and added to the crawl queue  
-9. 🔁 The crawling process continues automatically
+DarkAI operates as a persistent crawler service.
 
-## 🏗️ System Architecture
-
-![DarkAI Architecture](doc/architecture.png)
-
-The system uses a Tor-based crawling pipeline integrated with AI-powered
-content analysis to classify dark web websites and recursively discover
-new links without deadlocks.
+1. System initializes and loads all AI models  
+2. Remains idle while waiting for a submitted dark web URL  
+3. When a URL is provided, crawling and analysis begin  
+4. Newly discovered onion links are recursively analyzed  
 
 ---
 
-## 🧪 Technologies Used
+## How the System Works
 
-- 🐍 Python 3  
-- 🧅 Tor (SOCKS5 Proxy)  
-- 🌐 Selenium with Headless Chromium  
-- 👁️ EasyOCR (Computer Vision)  
-- 🧠 HuggingFace Transformers (NLP)  
-- 🐳 Docker & Docker Compose  
+1. User submits a `.onion` URL  
+2. All requests are routed through the Tor network  
+3. Page is rendered using a headless browser (Selenium + Chromium)  
+4. A screenshot of the rendered page is captured  
+5. OCR extracts visible text  
+6. NLP models analyze the extracted content  
+7. The site is classified as Safe or Threat  
+8. New onion links are discovered and added to the queue  
+9. Crawling continues recursively  
 
 ---
 
-## 📁 Project Structure
+## System Architecture
 
+(Architecture reference: `doc/architecture.png`)
 
-```text
+The system uses a Tor-based crawling pipeline integrated with AI models that classify dark web content and recursively discover new links without deadlocks.
+
+---
+
+## Technologies Used
+
+- Python 3  
+- Tor (SOCKS5 Proxy)  
+- Selenium (Headless Chromium)  
+- EasyOCR  
+- HuggingFace Transformers  
+- Docker & Docker Compose  
+
+---
+
+## Project Structure
+
+```
 DarkAI/
 ├── data/                     # Runtime data (generated at execution)
 │   └── .gitkeep              # Keeps empty folder tracked by Git
@@ -77,106 +74,46 @@ DarkAI/
 ├── docker-compose.yml        # Multi-container orchestration (Tor + Sentinel)
 ├── README.md                 # Project documentation
 ├── LICENSE                   # Open-source license
-└── .gitignore                # Ignored files and folders  
+└── .gitignore                # Ignored files and folders 
 ```
 
----
+How to Use
+```Step 1: Start the System```
 
-## ▶️ How to Use
+From the project root directory:
 
-### 🔹 Step 1: Start the System
+```docker compose up -d --build```
 
-From the project root directory, run:
-``docker compose up -d --build``
+This starts the Tor service and the Sentinel-AI crawler container.
 
-This starts:
-- 🧅 Tor service  
-- 🤖 Sentinel-AI crawler container  
+Step 2: Verify System Logs
+```docker logs -f sentinel-ai```
 
----
+Expected output:
 
-### 🔹 Step 2: Verify System Logs
-
-Check that the crawler is running and ready:
-
-``docker logs -f sentinel-ai``
-
-Expected logs:
 [*] Initializing AI models
+```
 Using CPU. Note: This module is much faster with a GPU.
 [✓] Tor connection established
 [✓] Sentinel-AI ready
 [⏳] Waiting for target URL...
-
-
-✅ This confirms the system is running correctly.
-
----
-
-### 🔹 Step 3: Submit a Dark Web URL
-
-In a **new terminal**, submit a `.onion` URL:
-```docker exec -it sentinel-ai python main.py http://exampleonionaddress.onion```
-
-⚠️ Notes:
-- Always include `http://`  
-- Submit **one seed URL at a time**  
-
----
-
-### 🔹 Step 4: Observe Crawling Output
-
-Example output:
 ```
-[+] Seed added: http://exampleonionaddress.onion
-[>] Crawling http://exampleonionaddress.onion
- (depth=0)
+Step 3: Submit a Dark Web URL
+```docker exec -it sentinel-ai python main.py http://example.onion```
+
+Notes:
+
+```Include http://```
+
+Submit one seed URL at a time
+
+Step 4: View Crawling Output
+
+Example:
+```
+[+] Seed added: http://example.onion
+[>] Crawling http://example.onion (depth=0)
 [✓] Search Engine | Threat=False
 [>] Crawling /about (depth=1)
 [✓] Directory | Threat=False
 ```
-
-
-Each log entry shows:
-- 🌐 URL being crawled  
-- 🔢 Crawl depth  
-- 🧠 AI-detected category  
-- ⚠️ Threat verdict  
-
----
-
-## 🗃️ Data Handling
-
-- ❌ No crawled data is committed to the repository  
-- ❌ Runtime artifacts (databases, screenshots) are excluded via `.gitignore`  
-- 📁 The `data/` directory remains empty for ethical and academic compliance  
-
----
-
-## ⚖️ Ethical Considerations
-
-This project is intended strictly for 🎓 **academic research and cybersecurity analysis**.
-
-- ❌ No illegal activity is encouraged  
-- ❌ Dark web data is not published  
-- ✅ The repository contains only the analysis framework  
-
----
-
-## 🎓 Academic Relevance
-
-This project integrates concepts from:
-
-- 🔐 Cyber Security  
-- 🌐 Computer Networks  
-- 🤖 Artificial Intelligence  
-- 👁️ Computer Vision  
-- 🧠 Operating Systems  
-- 🛠️ Software Engineering  
-
-
----
-
-## 📜 License
-
-MIT License
