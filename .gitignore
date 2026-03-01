@@ -11,12 +11,19 @@ sentinel/data/*
 *.jpg
 *.jpeg
 
+# reports
+report.txt
+
 # python
 __pycache__/
 *.pyc
 
 # environment
 .env
+
+# OS
+.DS_Store
+Thumbs.db
 
 # report (generated at runtime)
 report.txt

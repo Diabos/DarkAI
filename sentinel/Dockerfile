@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED=1 \
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     chromium chromium-driver \
-    libgl1 libglib2.0-0 \
+    libgl1 libglib2.0-0 curl \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -27,7 +27,10 @@ RUN useradd -m appuser \
     && chown -R appuser:appuser /app /home/appuser
 USER appuser
 
+# API port for web dashboard
+EXPOSE 5000
+
 HEALTHCHECK --interval=60s --timeout=10s --retries=3 \
-    CMD python -c "import sqlite3; sqlite3.connect('/app/data/crawler.db').execute('SELECT 1')" || exit 1
+    CMD curl -sf http://localhost:5000/api/status || python -c "import sqlite3; sqlite3.connect('/app/data/crawler.db').execute('SELECT 1')" || exit 1
 
 CMD ["python", "main.py"]

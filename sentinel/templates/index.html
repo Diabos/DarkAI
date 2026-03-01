@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkAI — Dark Web Intelligence Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+    <!-- ─── SIDEBAR ─── -->
+    <nav id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">🕵️</div>
+            <h1>DarkAI</h1>
+            <span class="brand-sub">Intelligence Platform</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" data-page="overview" class="active"><span class="nav-icon">📊</span> Overview</a></li>
+            <li><a href="#" data-page="sites"><span class="nav-icon">🌐</span> Sites</a></li>
+            <li><a href="#" data-page="threats"><span class="nav-icon">⚠️</span> Threats</a></li>
+            <li><a href="#" data-page="leaks"><span class="nav-icon">🔓</span> Data Leaks</a></li>
+            <li><a href="#" data-page="keywords"><span class="nav-icon">🔍</span> Keywords</a></li>
+            <li><a href="#" data-page="graph"><span class="nav-icon">🕸️</span> Link Graph</a></li>
+            <li><a href="#" data-page="search"><span class="nav-icon">🔎</span> Search</a></li>
+            <li><a href="#" data-page="alerts"><span class="nav-icon">🔔</span> Alerts</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="export-btns">
+                <button onclick="exportJSON()" class="btn btn-sm">📥 JSON</button>
+                <button onclick="exportCSV()" class="btn btn-sm">📄 CSV</button>
+            </div>
+            <p class="credit">Created by Ansh</p>
+        </div>
+    </nav>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main id="content">
+        <!-- Status Bar -->
+        <header id="status-bar">
+            <div class="status-item">
+                <span class="status-dot" id="crawler-dot"></span>
+                <span id="crawler-status">Connecting...</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Uptime:</span>
+                <span id="uptime">--:--:--</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Scanning:</span>
+                <span id="current-url" class="mono truncate">—</span>
+            </div>
+        </header>
+
+        <!-- ═══ PAGE: Overview ═══ -->
+        <section id="page-overview" class="page active">
+            <h2>Dashboard Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card" id="stat-total">
+                    <div class="stat-icon">🌐</div>
+                    <div class="stat-value" id="val-total">0</div>
+                    <div class="stat-label">Sites Scanned</div>
+                </div>
+                <div class="stat-card threat" id="stat-threats">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-value" id="val-threats">0</div>
+                    <div class="stat-label">Threats</div>
+                </div>
+                <div class="stat-card safe" id="stat-safe">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="val-safe">0</div>
+                    <div class="stat-label">Safe Sites</div>
+                </div>
+                <div class="stat-card leak" id="stat-leaks">
+                    <div class="stat-icon">🔓</div>
+                    <div class="stat-value" id="val-leaks">0</div>
+                    <div class="stat-label">Data Leaks</div>
+                </div>
+                <div class="stat-card" id="stat-keywords">
+                    <div class="stat-icon">🔍</div>
+                    <div class="stat-value" id="val-keywords">0</div>
+                    <div class="stat-label">Keyword Hits</div>
+                </div>
+                <div class="stat-card" id="stat-queue">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-value" id="val-queue">0</div>
+                    <div class="stat-label">Queue Pending</div>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3>Category Distribution</h3>
+                    <canvas id="chart-categories"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Scan Timeline</h3>
+                    <canvas id="chart-timeline"></canvas>
+                </div>
+            </div>
+
+            <div class="charts-row">
+                <div class="chart-card">
+                    <h3>Threat Timeline</h3>
+                    <canvas id="chart-threats-timeline"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Data Leak Types</h3>
+                    <canvas id="chart-leaks"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Top Linked Pages</h3>
+                <table id="table-top-linked">
+                    <thead><tr><th>URL</th><th>Incoming Links</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ═══ PAGE: Sites ═══ -->
+        <section id="page-sites" class="page">
+            <h2>Scanned Sites</h2>
+            <div class="controls">
+                <select id="filter-category" onchange="loadSites()">
+                    <option value="">All Categories</option>
+                </select>
+                <label><input type="checkbox" id="filter-threats" onchange="loadSites()"> Threats only</label>
+                <button onclick="loadSites()" class="btn">Refresh</button>
+            </div>
+            <table id="table-sites" class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>URL</th>
+                        <th>Category</th>
+                        <th>Score</th>
+                        <th>Threat</th>
+                        <th>Scanned</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- ═══ PAGE: Threats ═══ -->
+        <section id="page-threats" class="page">
+            <h2>⚠️ Threat Intelligence</h2>
+            <div id="threat-list" class="threat-grid"></div>
+        </section>
+
+        <!-- ═══ PAGE: Leaks ═══ -->
+        <section id="page-leaks" class="page">
+            <h2>🔓 Data Leak Detection</h2>
+            <div class="leak-summary" id="leak-summary"></div>
+            <table id="table-leaks" class="data-table">
+                <thead>
+                    <tr><th>#</th><th>URL</th><th>Type</th><th>Value</th><th>Found</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+
+        <!-- ═══ PAGE: Keywords ═══ -->
+        <section id="page-keywords" class="page">
+            <h2>🔍 Keyword Monitoring</h2>
+            <div class="controls">
+                <input type="text" id="new-keyword" placeholder="Enter keyword to monitor..." class="input">
+                <button onclick="addKeyword()" class="btn btn-primary">+ Add Keyword</button>
+            </div>
+            <div class="two-col">
+                <div class="card">
+                    <h3>Watchlist</h3>
+                    <ul id="keyword-list" class="keyword-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>Recent Matches</h3>
+                    <div id="keyword-hits"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ PAGE: Link Graph ═══ -->
+        <section id="page-graph" class="page">
+            <h2>🕸️ Link Graph Visualization</h2>
+            <div class="graph-controls">
+                <button onclick="loadGraph()" class="btn">Reload Graph</button>
+                <span class="graph-legend">
+                    <span class="legend-dot safe"></span> Safe
+                    <span class="legend-dot threat"></span> Threat
+                    <span class="legend-dot unknown"></span> Unscanned
+                </span>
+            </div>
+            <div id="network-graph"></div>
+        </section>
+
+        <!-- ═══ PAGE: Search ═══ -->
+        <section id="page-search" class="page">
+            <h2>🔎 Search Intelligence</h2>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search URLs, content, leaks..." class="input input-lg"
+                       onkeydown="if(event.key==='Enter')doSearch()">
+                <button onclick="doSearch()" class="btn btn-primary btn-lg">Search</button>
+            </div>
+            <div id="search-results"></div>
+        </section>
+
+        <!-- ═══ PAGE: Alerts ═══ -->
+        <section id="page-alerts" class="page">
+            <h2>🔔 Alert Configuration</h2>
+            <div class="alert-channels" id="alert-channels"></div>
+            <div class="card">
+                <h3>Submit URL for Scanning</h3>
+                <div class="controls">
+                    <input type="text" id="submit-url" placeholder="http://example.onion" class="input">
+                    <button onclick="submitURL()" class="btn btn-primary">Submit</button>
+                </div>
+                <p id="submit-result" class="small"></p>
+            </div>
+            <div class="card">
+                <h3>Alert History</h3>
+                <div id="alert-history"></div>
+            </div>
+        </section>
+
+        <!-- ═══ Site Detail Modal ═══ -->
+        <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+            <div class="modal" onclick="event.stopPropagation()">
+                <button class="modal-close" onclick="closeModal()">✕</button>
+                <div id="modal-content"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
