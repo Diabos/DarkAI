@@ -1,0 +1,6 @@
+data/
+seed.py
+__pycache__/
+*.pyc
+.git/
+.env

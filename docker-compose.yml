@@ -1,0 +1,44 @@
+services:
+  tor-service:
+    image: osminogin/tor-simple
+    container_name: tor-service
+    restart: always
+    expose:
+      - "9050"
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    healthcheck:
+      test: ["CMD-SHELL", "echo | nc -w2 127.0.0.1 9050 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  sentinel-ai:
+    build: ./sentinel
+    container_name: sentinel-ai
+    depends_on:
+      tor-service:
+        condition: service_healthy
+    restart: "no"   # crawler exits cleanly after finishing; use 'docker-compose up' to re-run
+    volumes:
+      - ./sentinel/data:/app/data
+      - model-cache-hf:/home/appuser/.cache/huggingface     # persist HuggingFace models
+      - model-cache-ocr:/home/appuser/.EasyOCR               # persist EasyOCR models
+    shm_size: "2gb"
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+    environment:
+      TOR_PROXY: socks5://tor-service:9050
+      SEED_URL: "http://juhanurmihxlp77nkq76byazcldy2hlmovfu2epvl5ankdibsot4csyd.onion"
+      MAX_DEPTH: "0"
+      MAX_SITES: "0"
+      CRAWL_DELAY: "5"
+
+volumes:
+  model-cache-hf:
+  model-cache-ocr:

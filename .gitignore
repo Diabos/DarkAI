@@ -1,0 +1,22 @@
+# runtime data
+data/*
+sentinel/data/*
+!data/.gitkeep
+!sentinel/data/.gitkeep
+
+# databases & images
+*.db
+*.sqlite
+*.png
+*.jpg
+*.jpeg
+
+# python
+__pycache__/
+*.pyc
+
+# environment
+.env
+
+# report (generated at runtime)
+report.txt
